@@ -1,11 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images : {
-    remotePatterns : [
-      {protocol : 'https' , hostname : 'covers.openlibrary.org'} , 
-      {protocol : 'https' , hostname : '0zxasqapjmrkcbfc.public.blob.vercel-storage.com'}
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'covers.openlibrary.org' },
+      { protocol: 'https', hostname: '0zxasqapjmrkcbfc.public.blob.vercel-storage.com' }
     ]
+  },
+  experimental: {
+    turbo: {
+      enabled: false
+    }
   }
 };
 

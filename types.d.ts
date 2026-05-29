@@ -75,6 +75,7 @@ export interface TextSegment {
 }
 
 export interface BookCardProps {
+    _id: string;
     title: string;
     author: string;
     coverURL: string;
@@ -115,19 +116,4 @@ export interface FileUploadFieldProps<T extends FieldValues> {
     icon: LucideIcon;
     placeholder: string;
     hint: string;
-}
-interface SessionCheckResult {
-  allowed: boolean;
-  currentCount: number;
-  limit: number;
-  plan: PlanType;
-  maxDurationMinutes: number;
-  error?: string;
-}
-
-interface StartSessionResult {
-  success: boolean;
-  sessionId?: string;
-  maxDurationMinutes?: number;
-  error?: string;
 }
