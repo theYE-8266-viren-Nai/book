@@ -341,7 +341,7 @@ const UploadForm = () => {
                                 <div className="file-upload-shadow w-full">
                                     <div className="flex items-center justify-between w-full">
                                         <div className="flex items-center gap-3">
-                                            <Image className="upload-dropzone-icon text-[var(--color-brand)]" alt="Book cover preview" />
+                                            <Image alt="Book cover preview" className="upload-dropzone-icon text-[var(--color-brand)]"  />
                                             <div>
                                                 <p className="text-[var(--text-primary)] font-medium">
                                                     {coverImage.name}
@@ -365,7 +365,7 @@ const UploadForm = () => {
                                 </div>
                             ) : (
                                 <div className="file-upload-shadow">
-                                    <Image className="upload-dropzone-icon" />
+                                    <Image alt="image" className="upload-dropzone-icon"  />
                                     <p className="upload-dropzone-text">Click to upload cover image</p>
                                     <p className="upload-dropzone-hint">
                                         Leave empty to auto-generate from PDF
