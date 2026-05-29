@@ -7,11 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '0zxasqapjmrkcbfc.public.blob.vercel-storage.com' }
     ]
   },
-  experimental: {
-    turbo: {
-      enabled: false
-    }
-  }
+
 };
 
 export default nextConfig;
