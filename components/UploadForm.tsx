@@ -341,7 +341,7 @@ const UploadForm = () => {
                                 <div className="file-upload-shadow w-full">
                                     <div className="flex items-center justify-between w-full">
                                         <div className="flex items-center gap-3">
-                                            <Image className="upload-dropzone-icon text-[var(--color-brand)]" />
+                                            <Image className="upload-dropzone-icon text-[var(--color-brand)]" alt="Book cover preview" />
                                             <div>
                                                 <p className="text-[var(--text-primary)] font-medium">
                                                     {coverImage.name}
