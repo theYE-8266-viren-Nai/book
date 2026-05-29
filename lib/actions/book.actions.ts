@@ -76,7 +76,21 @@ export const saveBookSegments = async (bookId: string, clerkId: string, segments
         }
     }
 }
-export const checkBookExists = async (title: string) => { 
+export const getBookBySlug = async (slug: string) => {
+  try {
+    await connectToDatabase();
+    const book = await Book.findOne({ slug }).lean();
+    if (!book) {
+      return { success: false, error: 'Book not found' };
+    }
+    return { success: true, data: serializeData(book) };
+  } catch (e) {
+    console.error('Error fetching book by slug', e);
+    return { success: false, error: e };
+  }
+}
+
+export const checkBookExists = async (title: string) => {
   try {
     await connectToDatabase();
 
@@ -99,5 +113,43 @@ export const checkBookExists = async (title: string) => {
       exists: false,
       error: e
     }
+  }
+}
+
+export const searchBookSegments = async (bookId: string, query: string, numSegments: number = 3) => {
+  try {
+    await connectToDatabase();
+
+    // Search for segments matching the query using text search
+    const segments = await BookSegment.find({
+      bookId,
+      $text: { $search: query }
+    })
+    .sort({ score: { $meta: 'textScore' } })
+    .limit(numSegments)
+    .lean();
+
+    if (!segments || segments.length === 0) {
+      return {
+        success: true,
+        data: [],
+        message: 'no information found about this topic'
+      };
+    }
+
+    return {
+      success: true,
+      data: segments.map(seg => ({
+        content: seg.content,
+        segmentIndex: seg.segmentIndex,
+        pageNumber: seg.pageNumber
+      }))
+    };
+  } catch (e) {
+    console.error('Error searching book segments', e);
+    return {
+      success: false,
+      error: e
+    };
   }
 }

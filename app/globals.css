@@ -483,8 +483,8 @@
   .transcript-message-user { @apply flex justify-end; }
   .transcript-message-assistant { @apply flex justify-start; }
   .transcript-bubble { @apply max-w-[80%] px-6 py-4 text-base font-medium leading-7 rounded-2xl; }
-  .transcript-bubble-user { @apply bg-[var(--color-brand)] text-[var(--primary-foreground)] rounded-br-sm; }
-  .transcript-bubble-assistant { @apply bg-[var(--bg-secondary)] text-[var(--text-primary)] rounded-bl-sm; }
+  .transcript-bubble-user { @apply bg-[#663820] text-white rounded-br-sm; }
+  .transcript-bubble-assistant { @apply bg-[#f3e4c7] text-[#1A1C23] rounded-bl-sm; }
   .transcript-cursor { @apply inline-block w-0.5 h-5 ml-1 bg-[var(--text-primary)] animate-pulse; }
   .transcript-empty { @apply flex flex-col items-center justify-center min-h-[350px] text-center flex-1; }
   .transcript-empty-text { @apply text-[var(--text-primary)] text-lg font-bold; }

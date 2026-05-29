@@ -70,12 +70,11 @@ const UploadForm = () => {
             author: '',
             pdfFile: undefined,
             coverImage: undefined,
-            voice: 'rachel',
-            persona: '',
+            persona: 'rachel',
         },
     })
 
-    const selectedVoice = watch('voice')
+    const selectedVoice = watch('persona')
 
     const handlePdfDrop = (e: React.DragEvent) => {
         e.preventDefault()
@@ -205,7 +204,7 @@ const UploadForm = () => {
                 clerkId: userId,
                 title: data.title,
                 author: data.author,
-                persona: data.persona || data.voice,
+                persona: data.persona,
                 fileURL: uploadedPdfBlob.url,
                 fileBlobKey: uploadedPdfBlob.pathname,
                 coverURL: coverUrl,
@@ -444,7 +443,7 @@ const UploadForm = () => {
                                             }`}
                                     >
                                         <input
-                                            {...register('voice')}
+                                            {...register('persona')}
                                             type="radio"
                                             value={voice.id}
                                             className="hidden"
@@ -477,7 +476,7 @@ const UploadForm = () => {
                                             }`}
                                     >
                                         <input
-                                            {...register('voice')}
+                                            {...register('persona')}
                                             type="radio"
                                             value={voice.id}
                                             className="hidden"
@@ -495,10 +494,10 @@ const UploadForm = () => {
                             </div>
                         </div>
 
-                        {errors.voice && (
+                        {errors.persona && (
                             <p className="text-red-500 text-sm mt-2">
-                                {typeof errors.voice?.message === 'string'
-                                    ? errors.voice.message
+                                {typeof errors.persona?.message === 'string'
+                                    ? errors.persona.message
                                     : 'Please select a voice'}
                             </p>
                         )}
