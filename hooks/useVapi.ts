@@ -56,6 +56,18 @@ const TIME_WARNING_THRESHOLD = 60; // Show warning when this many seconds remain
 
 let vapi: InstanceType<typeof Vapi>;
 
+function getErrorMessage(error: unknown) {
+    if (error instanceof Error) return error.message;
+
+    if (typeof error === 'object' && error !== null) {
+        const errorRecord = error as { message?: unknown; error?: { message?: unknown } };
+        if (typeof errorRecord.message === 'string') return errorRecord.message;
+        if (typeof errorRecord.error?.message === 'string') return errorRecord.error.message;
+    }
+
+    return String(error);
+}
+
 function getVapi() {
 
     if (!vapi) {
@@ -348,7 +360,7 @@ export function useVapi(book: IBook) {
 
 
 
-            error: (error: any) => {
+            error: (error: unknown) => {
 
                 console.error('Vapi error:', error);
 
@@ -392,7 +404,7 @@ export function useVapi(book: IBook) {
 
                 // Show user-friendly error message
 
-                const errorMessage = (error?.message || error?.error?.message || String(error)).toLowerCase();
+                const errorMessage = getErrorMessage(error).toLowerCase();
 
                 if (errorMessage.includes('ejection') || errorMessage.includes('ejected')) {
 

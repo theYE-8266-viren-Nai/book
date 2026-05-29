@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { ReactNode } from 'react';
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
 import { LucideIcon } from 'lucide-react';
@@ -9,7 +9,7 @@ import { UploadSchema } from '@/lib/zod';
 // DATABASE MODELS
 // ============================================
 
-export interface IBook extends Document {
+export interface IBook {
     _id: string;
     clerkId: string;
     title: string;
@@ -26,7 +26,7 @@ export interface IBook extends Document {
     updatedAt: Date;
 }
 
-export interface IBookSegment extends Document {
+export interface IBookSegment {
     clerkId: string;
     bookId: Types.ObjectId;
     content: string;
@@ -37,7 +37,7 @@ export interface IBookSegment extends Document {
     updatedAt: Date;
 }
 
-export interface IVoiceSession extends Document {
+export interface IVoiceSession {
     _id: string;
     clerkId: string;
     bookId: Types.ObjectId;
@@ -48,6 +48,16 @@ export interface IVoiceSession extends Document {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export type StartSessionResult =
+    | {
+        success: true;
+        sessionId: string;
+    }
+    | {
+        success: false;
+        error: string;
+    };
 
 // ============================================
 // FORM & INPUT TYPES
