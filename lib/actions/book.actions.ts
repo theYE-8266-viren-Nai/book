@@ -153,3 +153,27 @@ export const searchBookSegments = async (bookId: string, query: string, numSegme
     };
   }
 }
+
+export const searchBooks = async (query: string): Promise<{ success: boolean; data: BookCardProps[] }> => {
+  try {
+    await connectToDatabase();
+    
+    if (!query || query.trim() === '') {
+      const books = await Book.find().sort({ createdAt: -1 }).lean();
+      return { success: true, data: serializeData(books) };
+    }
+
+    const regex = new RegExp(query.trim(), 'i');
+    const books = await Book.find({
+      $or: [
+        { title: { $regex: regex } },
+        { author: { $regex: regex } }
+      ]
+    }).sort({ createdAt: -1 }).lean();
+    
+    return { success: true, data: serializeData(books) };
+  } catch (e) {
+    console.error('Error searching books', e);
+    return { success: false, data: [] };
+  }
+}
