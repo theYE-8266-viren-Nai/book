@@ -2,42 +2,43 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Search } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const SearchBar = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [query, setQuery] = useState(searchParams.get('q') || '')
-  const [debouncedQuery, setDebouncedQuery] = useState('')
+  const isUserInput = useRef(false)
 
   useEffect(() => {
-    setQuery(searchParams.get('q') || '')
-    setDebouncedQuery(searchParams.get('q') || '')
-  }, [searchParams])
+    if (!isUserInput.current) return
 
-  useEffect(() => {
+    const trimmed = query.trim()
+    if (trimmed === (searchParams.get('q') || '')) {
+      isUserInput.current = false
+      return
+    }
+
     const timer = setTimeout(() => {
-      setDebouncedQuery(query)
+      isUserInput.current = false
+      const params = new URLSearchParams(searchParams.toString())
+      if (trimmed) {
+        params.set('q', trimmed)
+      } else {
+        params.delete('q')
+      }
+      router.push(`/?${params.toString()}`, { scroll: false })
     }, 300)
 
     return () => clearTimeout(timer)
-  }, [query])
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString())
-    if (debouncedQuery.trim()) {
-      params.set('q', debouncedQuery.trim())
-    } else {
-      params.delete('q')
-    }
-    router.push(`/?${params.toString()}`, { scroll: false })
-  }, [debouncedQuery, router, searchParams])
+  }, [query, router, searchParams])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const params = new URLSearchParams(searchParams.toString())
-    if (query.trim()) {
-      params.set('q', query.trim())
+    const trimmed = query.trim()
+    if (trimmed) {
+      params.set('q', trimmed)
     } else {
       params.delete('q')
     }
@@ -49,7 +50,10 @@ const SearchBar = () => {
       <input
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => {
+          isUserInput.current = true
+          setQuery(e.target.value)
+        }}
         placeholder="Search books..."
         className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
