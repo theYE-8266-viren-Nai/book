@@ -7,13 +7,18 @@ import { useState, useEffect } from 'react'
 const SearchBar = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [query, setQuery] = useState(searchParams.get('q') || '')
-  const [debouncedQuery, setDebouncedQuery] = useState('')
+  const urlQuery = searchParams.get('q') || ''
 
-  useEffect(() => {
-    setQuery(searchParams.get('q') || '')
-    setDebouncedQuery(searchParams.get('q') || '')
-  }, [searchParams])
+  const [query, setQuery] = useState(urlQuery)
+  const [debouncedQuery, setDebouncedQuery] = useState(urlQuery)
+  const [prevUrlQuery, setPrevUrlQuery] = useState(urlQuery)
+
+  // Adjust state during render instead of in an effect
+  if (urlQuery !== prevUrlQuery) {
+    setPrevUrlQuery(urlQuery)
+    setQuery(urlQuery)
+    setDebouncedQuery(urlQuery)
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
